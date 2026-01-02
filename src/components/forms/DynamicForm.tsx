@@ -103,7 +103,7 @@ export default function DynamicForm({
 
   if (rightPanel) {
     return (
-      <div className="h-screen flex items-center justify-center bg-teal-500 p-3 sm:p-4 overflow-hidden">
+      <div className="h-screen flex items-center justify-center p-3 sm:p-4 overflow-hidden">
         <div className="w-full max-w-5xl bg-white rounded-lg shadow-2xl overflow-hidden flex flex-col md:flex-row h-[95vh] max-h-[550px]">
           {/* Left Panel - Form */}
           <div className="w-full md:w-1/2 p-4 sm:p-5 md:p-6 flex flex-col h-full overflow-y-auto">
