@@ -10,7 +10,7 @@ export default function ResetPassword() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email") || "";
-  const otp = searchParams.get("otp") || "";
+  const token = searchParams.get("token") || "";
   const [resetPassword, { isLoading, error: apiError }] = useResetPasswordMutation();
   const [message, setMessage] = useState("");
 
@@ -32,18 +32,18 @@ export default function ResetPassword() {
   ];
 
   const handleSubmit = async (data: ResetPasswordFormData) => {
-    if (!email || !otp) {
-      throw new Error("Email and OTP are required. Please go back to forgot password page.");
+    if (!email || !token) {
+      throw new Error("Invalid reset link. Please request a new reset link.");
     }
 
     try {
       const response = await resetPassword({
         email,
-        otp,
+        token,
         newPassword: data.newPassword,
         confirmPassword: data.confirmPassword,
       }).unwrap();
-      
+
       if (response.message) {
         setMessage("Password reset successful! Redirecting to login...");
         setTimeout(() => {
@@ -51,7 +51,7 @@ export default function ResetPassword() {
         }, 2000);
       }
     } catch (err: any) {
-      throw err;
+      console.error(err);
     }
   };
 
@@ -67,11 +67,11 @@ export default function ResetPassword() {
     </Link>
   );
 
-  if (!email || !otp) {
+  if (!email || !token) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
         <div className="text-center">
-          <p className="text-lg mb-4">Invalid reset link. Please request a new OTP.</p>
+          <p className="text-lg mb-4">Invalid reset link. Please request a new reset link.</p>
           <Link to={ROUTES.FORGOT_PASSWORD} className="text-primary hover:underline">
             Go to Forgot Password
           </Link>
